@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tài Sản">
+<meta name="theme-color" content="#E8234A">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-512.png">
+<title>Tài Sản 🪴</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --dao:#E8234A;--dao-light:#FADADD;--dao-dark:#C01030;
+  --mai:#D4A000;--mai-light:#FFF3C0;--mai-dark:#906000;
+  --cuc:#E07000;--cuc-light:#FFE8C0;--cuc-dark:#904000;
+  --hong:#C02060;--hong-light:#FFD6E4;--hong-dark:#801040;
+  --cam:#E05010;--cam-light:#FFE0D0;
+  --tim:#9040A0;--tim-light:#F0D8FF;
+  --xanh:#1A7A50;--xanh-light:#C8F0DC;
+  --sky:#3A7AC4;--sky-light:#D0E8FF;
+  --trang:#FFF8F0;--card:#FFFFFF;--border:#F0D8D0;
+  --text-primary:#2A1A1F;--text-secondary:#7A4A55;--text-tertiary:#A07080;
+}
+html,body{height:100%;background:var(--trang);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;}
+.app{max-width:430px;margin:0 auto;background:var(--trang);min-height:100vh;}
+.header{background:linear-gradient(150deg,#C41030 0%,#E8234A 40%,#F5A800 100%);padding:env(safe-area-inset-top,20px) 20px 20px;padding-top:calc(env(safe-area-inset-top,0px) + 28px);}
+.header-eyebrow{font-size:12px;color:rgba(255,255,255,0.82);margin-bottom:4px;letter-spacing:0.3px;}
+.header-total{font-size:38px;font-weight:300;color:#fff;letter-spacing:-1.5px;line-height:1.1;}
+.header-date{font-size:12px;color:rgba(255,255,255,0.65);margin-top:5px;}
+.petal-row{display:flex;gap:8px;margin-top:16px;}
+.petal{flex:1;border-radius:14px;padding:11px 13px;background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);}
+.petal-label{font-size:10px;font-weight:500;color:rgba(255,255,255,0.82);margin-bottom:3px;}
+.petal-val{font-size:15px;font-weight:500;color:#fff;}
+.content{padding:0 0 88px;}
+.section{padding:0 16px;margin-top:20px;}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.section-title{font-size:11px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.8px;}
+.add-btn{font-size:12px;color:var(--dao);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;font-weight:600;padding:4px 0;}
+.account-row{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform 0.12s;-webkit-user-select:none;user-select:none;}
+.account-row:active{transform:scale(0.975);}
+.acct-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ic-0{background:var(--dao-light);color:var(--dao-dark);}
+.ic-1{background:var(--mai-light);color:var(--mai-dark);}
+.ic-2{background:var(--cuc-light);color:var(--cuc-dark);}
+.ic-3{background:var(--hong-light);color:var(--hong-dark);}
+.ic-4{background:var(--cam-light);color:#904020;}
+.ic-5{background:var(--tim-light);color:#602080;}
+.ic-6{background:var(--xanh-light);color:#0A5030;}
+.ic-7{background:var(--sky-light);color:#1A4A90;}
+.ic-8{background:var(--dao-light);color:var(--dao-dark);}
+.acct-info{flex:1;min-width:0;}
+.acct-name{font-size:14px;font-weight:500;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.acct-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px;}
+.acct-right{text-align:right;flex-shrink:0;}
+.acct-amt{font-size:14px;font-weight:500;color:var(--text-primary);}
+.del-btn{background:none;border:none;color:#C8A8B0;cursor:pointer;padding:6px 4px;font-size:18px;flex-shrink:0;line-height:1;}
+.chart-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;overflow:hidden;}
+.chart-label{font-size:11px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px;}
+.chart-val{font-size:18px;font-weight:500;color:var(--text-primary);margin-bottom:14px;}
+.empty-state{padding:40px 20px;text-align:center;color:var(--text-tertiary);font-size:13px;line-height:1.7;}
+.empty-state .icon{font-size:36px;display:block;margin-bottom:10px;opacity:0.5;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:2px solid var(--dao-light);display:flex;padding-top:8px;padding-bottom:max(env(safe-area-inset-bottom,0px),16px);box-shadow:0 -4px 20px rgba(232,35,74,0.08);z-index:100;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:500;color:#7A4A55;cursor:pointer;background:none;border:none;padding:4px 0;}
+.nav-btn i{font-size:24px;}
+.nav-dot{width:5px;height:5px;border-radius:50%;margin:1px auto 0;opacity:0;transition:opacity 0.15s;}
+.nav-home.active{color:#C41030;} .nav-home.active i{color:#C41030;} .nav-home.active .nav-dot{opacity:1;background:#C41030;}
+.nav-history.active{color:#B07000;} .nav-history.active i{color:#B07000;} .nav-history.active .nav-dot{opacity:1;background:#B07000;}
+.nav-alloc.active{color:#901850;} .nav-alloc.active i{color:#901850;} .nav-alloc.active .nav-dot{opacity:1;background:#901850;}
+.overlay{position:fixed;inset:0;background:rgba(42,26,31,0.48);display:none;align-items:flex-end;justify-content:center;z-index:300;}
+.overlay.open{display:flex;}
+.sheet{background:var(--card);border-radius:24px 24px 0 0;padding:16px 20px;padding-bottom:max(env(safe-area-inset-bottom,0px),40px);width:100%;max-width:430px;}
+.handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+.sheet-title{font-size:17px;font-weight:600;margin-bottom:16px;color:var(--text-primary);}
+.field-label{font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;}
+.field-input{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:13px;font-size:17px;background:var(--trang);color:var(--text-primary);margin-bottom:14px;-webkit-appearance:none;}
+.field-input:focus{outline:none;border-color:var(--dao);}
+.btn-primary{width:100%;padding:15px;background:var(--dao);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;}
+.btn-primary:active{opacity:0.85;}
+.day-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;}
+.day-header{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.day-header:active{background:#FFF0F0;}
+.day-date{font-size:14px;font-weight:500;color:var(--text-primary);}
+.day-right{display:flex;align-items:center;gap:8px;}
+.day-total{font-size:15px;font-weight:500;color:var(--text-primary);}
+.day-change{font-size:12px;}
+.ch-up{color:#0A7A40;} .ch-down{color:#C01030;} .ch-flat{color:var(--text-tertiary);}
+.chevron{font-size:16px;color:var(--text-tertiary);transition:transform 0.2s;display:inline-block;}
+.chevron.open{transform:rotate(180deg);}
+.day-detail{border-top:1.5px solid var(--border);display:none;}
+.day-detail.open{display:block;}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #F8EEE8;}
+.detail-row:last-child{border-bottom:none;}
+.detail-type{font-size:10px;color:var(--text-tertiary);margin-bottom:1px;font-weight:500;text-transform:uppercase;letter-spacing:0.4px;}
+.detail-name{font-size:13px;color:var(--text-primary);}
+.detail-amt{font-size:13px;font-weight:500;color:var(--text-primary);}
+.donut-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column;align-items:center;}
+.donut-container{position:relative;width:200px;height:200px;}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
+.donut-center-label{font-size:11px;color:var(--text-tertiary);font-weight:500;}
+.donut-center-val{font-size:20px;font-weight:500;color:var(--text-primary);margin-top:2px;}
+.legend-grid{width:100%;margin-top:16px;}
+.legend-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5ECE8;}
+.legend-row:last-child{border-bottom:none;}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.legend-name{flex:1;font-size:13px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.legend-pct{font-size:12px;font-weight:600;color:var(--text-secondary);min-width:32px;text-align:right;}
+.legend-amt{font-size:13px;font-weight:500;color:var(--text-primary);min-width:80px;text-align:right;}
+.group-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;}
+.group-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.group-name{font-size:13px;font-weight:600;}
+.group-val{font-size:13px;font-weight:500;color:var(--text-primary);}
+.bar-bg{height:8px;background:#F5ECE8;border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);}
+.view{display:none;} .view.active{display:block;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <p class="header-eyebrow">Tài sản của tôi 🪴</p>
+    <p class="header-total" id="hd-total">¥0</p>
+    <p class="header-date" id="hd-date"></p>
+    <div class="petal-row">
+      <div class="petal"><p class="petal-label">🌸 Ngân hàng</p><p class="petal-val" id="sum-bank">¥0</p></div>
+      <div class="petal"><p class="petal-label">🌼 Chứng khoán</p><p class="petal-val" id="sum-broker">¥0</p></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="view active" id="view-home">
+      <div class="section">
+        <div class="section-header"><span class="section-title">Ngân hàng</span><button class="add-btn" onclick="openAdd('bank')"><i class="ti ti-plus"></i> Thêm</button></div>
+        <div id="list-bank"></div>
+      </div>
+      <div class="section">
+        <div class="section-header"><span class="section-title">Chứng khoán</span><button class="add-btn" onclick="openAdd('broker')"><i class="ti ti-plus"></i> Thêm</button></div>
+        <div id="list-broker"></div>
+      </div>
+      <div class="section">
+        <p class="section-title" style="margin-bottom:12px;">Net worth theo thời gian</p>
+        <div class="chart-card">
+          <p class="chart-label">Lịch sử</p>
+          <p class="chart-val" id="chart-val">¥0</p>
+          <div class="empty-state" id="chart-empty"><span class="icon">🌱</span>Nhập số dư để bắt đầu ghi nhận</div>
+          <div style="position:relative;width:100%;height:150px;display:none;" id="chart-container"><canvas id="netChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="view" id="view-history">
+      <div class="section" style="margin-top:20px;">
+        <p class="section-title" id="hist-count" style="margin-bottom:12px;">Lịch sử</p>
+        <div id="history-list"></div>
+      </div>
+    </div>
+    <div class="view" id="view-alloc">
+      <div class="section" style="margin-top:20px;">
+        <p class="section-title" style="margin-bottom:12px;">Theo tài khoản</p>
+        <div id="donut-section"></div>
+      </div>
+      <div class="section" style="margin-top:16px;">
+        <p class="section-title" style="margin-bottom:12px;">Ngân hàng vs Chứng khoán</p>
+        <div id="group-section"></div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <button class="nav-btn nav-home active" id="nav-home" onclick="switchView('home')"><i class="ti ti-home"></i><span>Tổng quan</span><div class="nav-dot"></div></button>
+    <button class="nav-btn nav-history" id="nav-history" onclick="switchView('history')"><i class="ti ti-history"></i><span>Lịch sử</span><div class="nav-dot"></div></button>
+    <button class="nav-btn nav-alloc" id="nav-alloc" onclick="switchView('alloc')"><i class="ti ti-chart-pie"></i><span>Phân bổ</span><div class="nav-dot"></div></button>
+  </div>
+</div>
+
+<div class="overlay" id="ov-amount" onclick="ovClose(event,'ov-amount')">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="handle"></div>
+    <p class="sheet-title" id="ov-amt-title">Cập nhật số dư</p>
+    <p class="field-label">Số dư hiện tại (¥)</p>
+    <input class="field-input" type="number" id="ov-amt-input" placeholder="0" inputmode="numeric"/>
+    <button class="btn-primary" onclick="saveAmount()">Lưu 🌸</button>
+  </div>
+</div>
+<div class="overlay" id="ov-add" onclick="ovClose(event,'ov-add')">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="handle"></div>
+    <p class="sheet-title" id="ov-add-title">Thêm tài khoản</p>
+    <p class="field-label">Tên tài khoản</p>
+    <input class="field-input" type="text" id="ov-add-name" placeholder="VD: PayPay Bank"/>
+    <button class="btn-primary" onclick="saveAdd()">Thêm</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const CHART_COLORS=['#E8234A','#D4A000','#E07000','#C02060','#E05010','#9040A0','#1A7A50','#3A7AC4','#B05000'];
+const ICON_BANK=['ti-building-bank','ti-coins','ti-wallet'];
+const ICON_BROKER=['ti-chart-line','ti-chart-bar','ti-trending-up','ti-leaf','ti-users','ti-chart-area'];
+const DEFAULT={accounts:[
+  {id:'bank-1',type:'bank',name:'Rakuten Bank',balance:0},
+  {id:'bank-2',type:'bank',name:'SMBC (三井住友)',balance:0},
+  {id:'bank-3',type:'bank',name:'Resona',balance:0},
+  {id:'broker-1',type:'broker',name:'Interactive Brokers',balance:0},
+  {id:'broker-2',type:'broker',name:'NISA',balance:0},
+  {id:'broker-3',type:'broker',name:'SBI Securities',balance:0},
+  {id:'broker-4',type:'broker',name:'Rakuten Securities',balance:0},
+  {id:'broker-5',type:'broker',name:'moomoo — tôi',balance:0},
+  {id:'broker-6',type:'broker',name:'moomoo — người nhà',balance:0},
+],history:[],lastUpdate:null};
+let state=JSON.parse(localStorage.getItem('taisan-v1')||'null')||JSON.parse(JSON.stringify(DEFAULT));
+let editId=null,addType=null,chartInst=null,donutInst=null;
+function save(){localStorage.setItem('taisan-v1',JSON.stringify(state));}
+function fmt(n){return n===0?'¥0':'¥'+Math.round(n).toLocaleString('ja-JP');}
+function total(){return state.accounts.reduce((s,a)=>s+(a.balance||0),0);}
+function sumType(t){return state.accounts.filter(a=>a.type===t).reduce((s,a)=>s+(a.balance||0),0);}
+function todayStr(){const d=new Date();return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');}
+function icClass(id){return 'ic-'+((parseInt(id.split('-')[1]||'1')-1)%9);}
+function icName(type,id,name){
+  if(name.includes('NISA')) return 'ti-leaf';
+  if(name.includes('người nhà')) return 'ti-users';
+  const n=parseInt(id.split('-')[1]||'1')-1;
+  return type==='bank'?ICON_BANK[n%ICON_BANK.length]:ICON_BROKER[n%ICON_BROKER.length];
+}
+function renderHeader(){
+  const t=total();
+  ['hd-total','chart-val'].forEach(id=>document.getElementById(id).textContent=fmt(t));
+  document.getElementById('sum-bank').textContent=fmt(sumType('bank'));
+  document.getElementById('sum-broker').textContent=fmt(sumType('broker'));
+  document.getElementById('hd-date').textContent=state.lastUpdate?'最終更新: '+state.lastUpdate:todayStr();
+}
+function renderList(type){
+  const el=document.getElementById('list-'+type);
+  const accts=state.accounts.filter(a=>a.type===type);
+  const tot=total();
+  el.innerHTML=accts.map(a=>{
+    const pct=tot>0?Math.round(a.balance/tot*100):0;
+    return `<div class="account-row" onclick="openEdit('${a.id}')">
+      <div class="acct-icon ${icClass(a.id)}"><i class="ti ${icName(a.type,a.id,a.name)}"></i></div>
+      <div class="acct-info"><p class="acct-name">${a.name}</p><p class="acct-sub">${pct}% tổng tài sản</p></div>
+      <div class="acct-right"><p class="acct-amt">${fmt(a.balance)}</p></div>
+      <button class="del-btn" onclick="event.stopPropagation();deleteAcct('${a.id}')"><i class="ti ti-trash"></i></button>
+    </div>`;
+  }).join('');
+}
+function renderChart(){
+  const hist=state.history;
+  const empty=document.getElementById('chart-empty');
+  const cont=document.getElementById('chart-container');
+  if(hist.length<2){empty.style.display='flex';cont.style.display='none';return;}
+  empty.style.display='none';cont.style.display='block';
+  if(chartInst) chartInst.destroy();
+  chartInst=new Chart(document.getElementById('netChart'),{
+    type:'line',data:{labels:hist.map(h=>h.date),datasets:[{data:hist.map(h=>h.total),
+      borderColor:'#D41A40',backgroundColor:'rgba(232,35,74,0.08)',borderWidth:2,fill:true,tension:0.4,
+      pointRadius:hist.length>10?0:3,pointHoverRadius:4,pointBackgroundColor:'#D41A40',pointBorderColor:'#fff',pointBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.parsed.y)}}},
+      scales:{x:{grid:{color:'rgba(232,35,74,0.05)'},ticks:{color:'#A07080',font:{size:10},maxTicksLimit:6}},
+        y:{grid:{color:'rgba(232,35,74,0.05)'},ticks:{color:'#A07080',font:{size:10},callback:v=>{
+          if(v>=100000000)return '¥'+Math.round(v/100000000)+'億';
+          if(v>=10000)return '¥'+Math.round(v/10000)+'万';return '¥'+v;}}}}}});
+}
+function renderHome(){renderHeader();renderList('bank');renderList('broker');renderChart();}
+function renderHistory(){
+  const hist=[...state.history].reverse();
+  const countEl=document.getElementById('hist-count');
+  const listEl=document.getElementById('history-list');
+  if(!hist.length){countEl.textContent='Lịch sử';listEl.innerHTML=`<div class="empty-state"><span class="icon">📅</span>Chưa có lịch sử.<br>Nhập số dư từ Tổng quan.</div>`;return;}
+  countEl.textContent=hist.length+' ngày ghi nhận';
+  listEl.innerHTML=hist.map((entry,i)=>{
+    const prev=hist[i+1];
+    let ch='';
+    if(prev){const diff=entry.total-prev.total;
+      if(diff>0)ch=`<span class="day-change ch-up">▲${fmt(diff)}</span>`;
+      else if(diff<0)ch=`<span class="day-change ch-down">▼${fmt(Math.abs(diff))}</span>`;
+      else ch=`<span class="day-change ch-flat">—</span>`;}
+    const rows=state.accounts.map(a=>`<div class="detail-row"><div><p class="detail-type">${a.type==='bank'?'Ngân hàng':'Chứng khoán'}</p><p class="detail-name">${a.name}</p></div><span class="detail-amt">${fmt(a.balance)}</span></div>`).join('');
+    return `<div class="day-card"><div class="day-header" onclick="toggleDay(this)"><span class="day-date">${entry.date}</span><div class="day-right">${ch}<span class="day-total">${fmt(entry.total)}</span><i class="ti ti-chevron-down chevron"></i></div></div><div class="day-detail">${rows}</div></div>`;
+  }).join('');
+  const first=listEl.querySelector('.day-header');if(first)toggleDay(first);
+}
+function toggleDay(h){const d=h.nextElementSibling,c=h.querySelector('.chevron'),o=d.classList.toggle('open');c.classList.toggle('open',o);}
+function renderAlloc(){
+  const donutSec=document.getElementById('donut-section');
+  const groupSec=document.getElementById('group-section');
+  const accts=state.accounts.filter(a=>a.balance>0);
+  const tot=total();
+  if(!accts.length){donutSec.innerHTML=`<div class="empty-state"><span class="icon">🌼</span>Chưa có dữ liệu.<br>Nhập số dư từ Tổng quan.</div>`;groupSec.innerHTML='';return;}
+  donutSec.innerHTML=`<div class="donut-wrap"><div class="donut-container"><canvas id="donutChart"></canvas><div class="donut-center"><span class="donut-center-label">Tổng</span><span class="donut-center-val">${fmt(tot)}</span></div></div><div class="legend-grid">${accts.map((a,i)=>{const pct=Math.round(a.balance/tot*100);return `<div class="legend-row"><div class="legend-dot" style="background:${CHART_COLORS[i%CHART_COLORS.length]}"></div><span class="legend-name">${a.name}</span><span class="legend-pct">${pct}%</span><span class="legend-amt">${fmt(a.balance)}</span></div>`;}).join('')}</div></div>`;
+  if(donutInst)donutInst.destroy();
+  donutInst=new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:accts.map(a=>a.name),datasets:[{data:accts.map(a=>a.balance),backgroundColor:accts.map((_,i)=>CHART_COLORS[i%CHART_COLORS.length]),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:true,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const p=Math.round(c.parsed/tot*100);return ` ${fmt(c.parsed)} (${p}%)`;}}}}}});
+  const bkT=sumType('bank'),brT=sumType('broker');
+  const bkP=tot>0?Math.round(bkT/tot*100):0,brP=tot>0?Math.round(brT/tot*100):0;
+  groupSec.innerHTML=`<div class="group-card"><div class="group-header"><span class="group-name" style="color:#C01030">🌸 Ngân hàng</span><span class="group-val">${fmt(bkT)} <span style="color:#A07080;font-size:12px">${bkP}%</span></span></div><div class="bar-bg"><div class="bar-fill" style="width:${bkP}%;background:#E8234A"></div></div></div><div class="group-card"><div class="group-header"><span class="group-name" style="color:#906000">🌼 Chứng khoán</span><span class="group-val">${fmt(brT)} <span style="color:#A07080;font-size:12px">${brP}%</span></span></div><div class="bar-bg"><div class="bar-fill" style="width:${brP}%;background:#D4A000"></div></div></div>`;
+}
+function switchView(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-'+view).classList.add('active');
+  window.scrollTo(0,0);
+  if(view==='home')renderHome();
+  if(view==='history')renderHistory();
+  if(view==='alloc')renderAlloc();
+}
+function openEdit(id){
+  editId=id;const a=state.accounts.find(x=>x.id===id);
+  document.getElementById('ov-amt-title').textContent=a.name;
+  document.getElementById('ov-amt-input').value=a.balance||'';
+  document.getElementById('ov-amount').classList.add('open');
+  setTimeout(()=>document.getElementById('ov-amt-input').focus(),200);
+}
+function saveAmount(){
+  const val=parseFloat(document.getElementById('ov-amt-input').value)||0;
+  const a=state.accounts.find(x=>x.id===editId);if(a)a.balance=val;
+  state.lastUpdate=todayStr();const t=total();
+  const last=state.history[state.history.length-1];
+  if(!last||last.date!==todayStr())state.history.push({date:todayStr(),total:t});
+  else last.total=t;
+  save();document.getElementById('ov-amount').classList.remove('open');renderHome();
+}
+function openAdd(type){
+  addType=type;
+  document.getElementById('ov-add-title').textContent=type==='bank'?'Thêm ngân hàng':'Thêm công ty chứng khoán';
+  document.getElementById('ov-add-name').value='';
+  document.getElementById('ov-add').classList.add('open');
+  setTimeout(()=>document.getElementById('ov-add-name').focus(),200);
+}
+function saveAdd(){
+  const name=document.getElementById('ov-add-name').value.trim();if(!name)return;
+  const id=addType+'-'+Date.now();
+  state.accounts.push({id,type:addType,name,balance:0});
+  save();document.getElementById('ov-add').classList.remove('open');renderHome();
+}
+function deleteAcct(id){
+  if(state.accounts.length<=1)return;
+  if(!confirm('Xóa tài khoản này?'))return;
+  state.accounts=state.accounts.filter(a=>a.id!==id);save();renderHome();
+}
+function ovClose(e,ovId){if(e.target===document.getElementById(ovId))document.getElementById(ovId).classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+renderHome();
+</script>
+</body>
+</html>
